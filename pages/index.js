@@ -11,6 +11,14 @@ import { useRef } from 'react';
 export default function Home() {
     const router = useRouter();
     const searchInputRef = useRef(null);
+    async function randomSearch(event) {
+        event.preventDefault();
+        const randomTerm = await fetch(`https://random-word-api.herokuapp.com/word`).then(
+            (response) => response.json()
+        );
+        if (!randomTerm) return;
+        router.push(`/search?term=${randomTerm}&searchType=`);
+    }
     function search(event) {
         event.preventDefault();
         const term = searchInputRef.current.value;
@@ -49,7 +57,9 @@ export default function Home() {
                     <button onClick={search} className="btn">
                         Google Search
                     </button>
-                    <button className="btn">I'm Feeling Lucky</button>
+                    <button onClick={randomSearch} className="btn">
+                        I&apos;m Feeling Lucky
+                    </button>
                 </div>
             </form>
 
